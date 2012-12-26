@@ -53,11 +53,13 @@ class GuiQt:
         self.dj_rsa = dj_rsa
 
         from PyQt4.QtGui import QApplication
+        from PyQt4.QtCore import Qt
         from PyQt4.QtWebKit import QWebView
 
         self.app = QApplication(list())
 
         self.webview = QWebView()
+        self.webview.setWindowState(Qt.WindowMaximized)
 
         self.webview.show()
 
