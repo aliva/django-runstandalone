@@ -15,8 +15,12 @@ if __name__ == '__main__':
     # import DjangoRunStandAlone
     import runstandalone.runstandalone
     dj_runner = runstandalone.runstandalone.DjangoRunStandAlone(
-        wsgi='testproject.wsgi' # this is the wsgi.py in project. it should be importable
+        wsgi='testproject.wsgi', # this is the wsgi.py in project. it should be importable
+        # ip='127.0.0.1', # django server ip - optional - default: 0.0.0.0
+        # port=8000, # django server port - optional - default: random
     )
+
+    # run!!
     #dj_runner.run('gtk3')
     #dj_runner.run('gtk2')
     dj_runner.run('qt4')
