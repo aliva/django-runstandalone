@@ -97,6 +97,8 @@ class DjangoRunStandAlone:
             ui = GuiGtk(2, self)
         elif ui_mode == 'qt4':
             ui = GuiQt(self)
+        else:
+            raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
 
         self.server_thread.start()
 
