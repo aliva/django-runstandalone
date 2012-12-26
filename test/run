@@ -12,10 +12,11 @@ if __name__ == '__main__':
     # adding runstandalone to python path to make DjangoRunStandAlone importable
     sys.path.insert(0, os.path.abspath(os.path.join(working_dir + '/../')))
 
-    print(sys.path)
     # import DjangoRunStandAlone
     import runstandalone.runstandalone
     dj_runner = runstandalone.runstandalone.DjangoRunStandAlone(
         wsgi='testproject.wsgi' # this is the wsgi.py in project. it should be importable
     )
-    dj_runner.run()
+    #dj_runner.run('gtk3')
+    #dj_runner.run('gtk2')
+    dj_runner.run('qt4')

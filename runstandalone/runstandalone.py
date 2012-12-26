@@ -21,7 +21,8 @@ class GuiGtk:
         self.Gtk = Gtk
         GObject.threads_init()
 
-        self.window = Gtk.Window(title="%s" % self.dj_rsa.port)
+        self.window = Gtk.Window()
+        self.window.set_title('%d' % self.dj_rsa.port)
         #self.window.set_icon_from_file()
         self.window.maximize()
 
@@ -42,6 +43,24 @@ class GuiGtk:
 
     def quit(self, window):
         self.Gtk.main_quit()
+
+class GuiQt:
+    def __init__(self, dj_rsa):
+        self.dj_rsa = dj_rsa
+
+        from PyQt4.QtCore import QUrl
+        from PyQt4.QtGui import QApplication
+        from PyQt4.QtWebKit import QWebView
+
+        self.app = QApplication(list())
+
+        self.webview = QWebView()
+        self.webview.load(QUrl('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port)))
+
+        self.webview.show()
+
+    def run(self):
+        self.app.exec_()
 
 class DjangoRunStandAlone:
     def __init__(self, **args):
@@ -64,7 +83,9 @@ class DjangoRunStandAlone:
         if ui_mode == 'gtk3':
             ui = GuiGtk(3, self)
         elif ui_mode == 'gtk2':
-            ui = GuiGtk(3, self)
+            ui = GuiGtk(2, self)
+        elif ui_mode == 'qt4':
+            ui = GuiQt(self)
 
         self.server_thread.start()
         ui.run()
