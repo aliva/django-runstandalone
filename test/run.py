@@ -21,8 +21,8 @@ if __name__ == '__main__':
         # ip='127.0.0.1',
         # django server port - optional - default: random
         # port=8000,
-        # windw icon - optional - path to image file
-        # make shure send a valid image file
+        # window icon - optional - path to image file
+        # make sure send a valid image file
         icon=os.path.abspath(os.path.abspath(os.path.join(working_dir, 'django.png')))
     )
 
