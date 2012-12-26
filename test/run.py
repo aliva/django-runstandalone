@@ -23,7 +23,7 @@ if __name__ == '__main__':
         # port=8000,
         # window icon - optional - path to image file
         # make sure send a valid image file
-        icon=os.path.abspath(os.path.abspath(os.path.join(working_dir, 'django.png')))
+        icon=os.path.abspath(os.path.abspath(os.path.join(working_dir, 'testproject/testproject/static/django.png')))
     )
 
     # run!!
