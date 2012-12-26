@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import importlib
+import os
 import socket
 import threading
 from wsgiref.simple_server import make_server
@@ -23,7 +24,7 @@ class GuiGtk:
 
         self.window = Gtk.Window()
         self.window.set_title('%d' % self.dj_rsa.port)
-        #self.window.set_icon_from_file()
+
         self.window.maximize()
 
         self.scrolledwindow = Gtk.ScrolledWindow()
@@ -44,6 +45,9 @@ class GuiGtk:
     def quit(self, window):
         self.Gtk.main_quit()
 
+    def set_icon(self, icon):
+        self.window.set_icon_from_file(icon)
+
 class GuiQt:
     def __init__(self, dj_rsa):
         self.dj_rsa = dj_rsa
@@ -62,11 +66,16 @@ class GuiQt:
         self.webview.load(QUrl('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port)))
         self.app.exec_()
 
+    def set_icon(self, icon):
+        from PyQt4.QtGui import QIcon
+        self.webview.setWindowIcon(QIcon(icon))
+
 class DjangoRunStandAlone:
     def __init__(self, **args):
         self.wsgi = args['wsgi']
         self.ip = args.get('ip', '0.0.0.0')
         self.port = args.get('port', self.get_random_port())
+        self.icon = args.get('icon', '')
 
         self.server_thread = threading.Thread(target=self._run_server)
         self.server_thread.daemon = True
@@ -88,6 +97,9 @@ class DjangoRunStandAlone:
             ui = GuiQt(self)
 
         self.server_thread.start()
+
+        if os.path.exists(self.icon):
+            ui.set_icon(self.icon)
         ui.run()
 
     def _run_server(self):

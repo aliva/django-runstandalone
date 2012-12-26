@@ -15,12 +15,19 @@ if __name__ == '__main__':
     # import DjangoRunStandAlone
     import runstandalone.runstandalone
     dj_runner = runstandalone.runstandalone.DjangoRunStandAlone(
-        wsgi='testproject.wsgi', # this is the wsgi.py in project. it should be importable
-        # ip='127.0.0.1', # django server ip - optional - default: 0.0.0.0
-        # port=8000, # django server port - optional - default: random
+        # this is the wsgi.py in project. it should be importable
+        wsgi='testproject.wsgi',
+        # django server ip - optional - default: 0.0.0.0
+        # ip='127.0.0.1',
+        # django server port - optional - default: random
+        # port=8000,
+        # windw icon - optional - path to image file
+        # make shure send a valid image file
+        icon=os.path.abspath(os.path.abspath(os.path.join(working_dir, 'django.png')))
     )
 
     # run!!
+    dj_runner.run()
     #dj_runner.run('gtk3')
     #dj_runner.run('gtk2')
-    dj_runner.run('qt4')
+    #dj_runner.run('qt4')
