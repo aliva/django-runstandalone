@@ -4,7 +4,13 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = []
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += patterns('',
+    url(r'^$', 'testproject.views.root'),
     # Examples:
     # url(r'^$', 'testproject.views.home', name='home'),
     # url(r'^testproject/', include('testproject.foo.urls')),
