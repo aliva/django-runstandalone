@@ -48,18 +48,18 @@ class GuiQt:
     def __init__(self, dj_rsa):
         self.dj_rsa = dj_rsa
 
-        from PyQt4.QtCore import QUrl
         from PyQt4.QtGui import QApplication
         from PyQt4.QtWebKit import QWebView
 
         self.app = QApplication(list())
 
         self.webview = QWebView()
-        self.webview.load(QUrl('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port)))
 
         self.webview.show()
 
     def run(self):
+        from PyQt4.QtCore import QUrl
+        self.webview.load(QUrl('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port)))
         self.app.exec_()
 
 class DjangoRunStandAlone:
