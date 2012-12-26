@@ -36,10 +36,8 @@ class GuiGtk:
         
         GObject.threads_init()
         
-        self.window = Gtk.Window(title="milkdrop %s" % port)
-        self.window.set_icon_from_file(
-            os.path.join(project_dir+'/milkdrop/static/milkdrop.png')
-        )
+        self.window = Gtk.Window(title="%s" % port)
+        #self.window.set_icon_from_file()
         self.window.maximize()
 
         self.scrolledwindow = Gtk.ScrolledWindow()
