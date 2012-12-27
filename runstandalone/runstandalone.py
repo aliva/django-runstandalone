@@ -37,7 +37,7 @@ class GuiGtk:
         self.window.add(self.scrolledwindow)
         self.scrolledwindow.add(self.webview)
 
-        self.window.connect('destroy', self.quit)
+        self.window.connect('destroy', self._quit)
         self.window.set_size_request(800, 600)
         self.window.show_all()
 
@@ -46,7 +46,7 @@ class GuiGtk:
     def run(self):
         self.Gtk.main()
 
-    def quit(self, window):
+    def _quit(self, window):
         self.Gtk.main_quit()
 
     def set_icon(self, icon):
@@ -83,7 +83,7 @@ class DjangoRunStandAlone:
         self.port = args.get('port', self.get_random_port())
         self.icon = args.get('icon', '')
 
-        self.server_thread = threading.Thread(target=self._run_server)
+        self.server_thread = threading.Thread(target=self.run_server)
         self.server_thread.daemon = True
 
     def get_random_port(self):
@@ -112,6 +112,7 @@ class DjangoRunStandAlone:
             raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
 
         self.server_thread.start()
+
         while not self.ping():
             pass
 
@@ -119,7 +120,7 @@ class DjangoRunStandAlone:
             ui.set_icon(self.icon)
         ui.run()
 
-    def _run_server(self):
+    def run_server(self):
         wsgi = importlib.import_module(self.wsgi)
         httpd = make_server(self.ip, self.port, wsgi.application)
         print ("Listening on port %d...." % self.port)
