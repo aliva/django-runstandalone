@@ -41,7 +41,7 @@ class GuiGtk:
         self.window.set_size_request(800, 600)
         self.window.show_all()
 
-        self.webview.load_uri('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port))
+        self.webview.load_uri(self.dj_rsa.full_url_address)
 
     def run(self):
         self.Gtk.main()
@@ -69,7 +69,7 @@ class GuiQt:
 
     def run(self):
         from PyQt4.QtCore import QUrl
-        self.webview.load(QUrl('http://%s:%d' % (self.dj_rsa.ip, self.dj_rsa.port)))
+        self.webview.load(QUrl(self.dj_rsa.full_url_address))
         self.app.exec_()
 
     def set_icon(self, icon):
@@ -82,6 +82,8 @@ class DjangoRunStandAlone:
         self.ip = args.get('ip', '0.0.0.0')
         self.port = args.get('port', self.get_random_port())
         self.icon = args.get('icon', '')
+
+        self.full_url_address = 'http://%s:%d' % (self.ip, self.port)
 
         self.server_thread = threading.Thread(target=self.run_server)
         self.server_thread.daemon = True
@@ -96,7 +98,7 @@ class DjangoRunStandAlone:
 
     def ping(self):
         try:
-            urlopen('http://%s:%d' % (self.ip, self.port))
+            urlopen(self.full_url_address)
         except:
             return False
         return True
