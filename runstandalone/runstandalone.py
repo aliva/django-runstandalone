@@ -4,6 +4,10 @@ import importlib
 import os
 import socket
 import threading
+try:
+    from urllib.request import urlopen
+except ImportError: # python2
+    from urllib import urlopen
 from wsgiref.simple_server import make_server
 
 class GuiGtk:
@@ -90,6 +94,13 @@ class DjangoRunStandAlone:
         s.close()
         return port
 
+    def ping(self):
+        try:
+            urlopen('http://%s:%d' % (self.ip, self.port))
+        except:
+            return False
+        return True
+
     def run(self, ui_mode='gtk3'):
         if ui_mode == 'gtk3':
             ui = GuiGtk(3, self)
@@ -101,6 +112,8 @@ class DjangoRunStandAlone:
             raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
 
         self.server_thread.start()
+        while not self.ping():
+            pass
 
         if os.path.exists(self.icon):
             ui.set_icon(self.icon)
