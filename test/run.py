@@ -28,6 +28,10 @@ if __name__ == '__main__':
 
     # run!!
     dj_runner.run()
+
+    # or run with the selected ui toolkit
     #dj_runner.run('gtk3')
     #dj_runner.run('gtk2')
     #dj_runner.run('qt4')
+    # currently only supports those ui toolkits
+    # if you want to add other toolkits, simply fork this project and send me a pull request
