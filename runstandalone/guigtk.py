@@ -15,21 +15,20 @@ class GuiGtk:
         GObject.threads_init()
 
         self.window = Gtk.Window()
-        self.window.set_title('%d' % self.dj_rsa.port)
-
-        self.window.maximize()
-
         self.scrolledwindow = Gtk.ScrolledWindow()
         self.webview = WebKit.WebView()
 
         self.window.add(self.scrolledwindow)
         self.scrolledwindow.add(self.webview)
 
-        self.window.connect('destroy', self._quit)
         self.window.set_size_request(800, 600)
-        self.window.show_all()
+        self.window.maximize()
+
+        self.window.connect('destroy', self._quit)
 
         self.webview.load_uri(self.dj_rsa.full_url_address)
+
+        self.window.show_all()
 
     def run(self):
         self.Gtk.main()
