@@ -40,13 +40,13 @@ class DjangoRunStandAlone:
 
     def run(self, ui_mode='gtk3'):
         if ui_mode == 'gtk3':
-            from guigtk import GuiGtk
+            from .guigtk import GuiGtk
             ui = GuiGtk(3, self)
         elif ui_mode == 'gtk2':
-            from guigtk import GuiGtk
+            from .guigtk import GuiGtk
             ui = GuiGtk(2, self)
         elif ui_mode == 'qt4':
-            from guiqt import GuiQt
+            from .guiqt import GuiQt
             ui = GuiQt(self)
         else:
             raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
