@@ -10,71 +10,6 @@ except ImportError: # python2
     from urllib import urlopen
 from wsgiref.simple_server import make_server
 
-class GuiGtk:
-    def __init__(self, version, dj_rsa):
-        self.dj_rsa = dj_rsa
-
-        if version == 3:
-            from gi.repository import Gtk
-            from gi.repository import GObject
-            from gi.repository import WebKit
-        elif version == 2:
-            import gtk as Gtk
-            import gobject as GObject
-            import webkit as WebKit
-
-        self.Gtk = Gtk
-        GObject.threads_init()
-
-        self.window = Gtk.Window()
-        self.window.set_title('%d' % self.dj_rsa.port)
-
-        self.window.maximize()
-
-        self.scrolledwindow = Gtk.ScrolledWindow()
-        self.webview = WebKit.WebView()
-
-        self.window.add(self.scrolledwindow)
-        self.scrolledwindow.add(self.webview)
-
-        self.window.connect('destroy', self._quit)
-        self.window.set_size_request(800, 600)
-        self.window.show_all()
-
-        self.webview.load_uri(self.dj_rsa.full_url_address)
-
-    def run(self):
-        self.Gtk.main()
-
-    def _quit(self, window):
-        self.Gtk.main_quit()
-
-    def set_icon(self, icon):
-        self.window.set_icon_from_file(icon)
-
-class GuiQt:
-    def __init__(self, dj_rsa):
-        self.dj_rsa = dj_rsa
-
-        from PyQt4.QtGui import QApplication
-        from PyQt4.QtCore import Qt
-        from PyQt4.QtWebKit import QWebView
-
-        self.app = QApplication(list())
-
-        self.webview = QWebView()
-        self.webview.setWindowState(Qt.WindowMaximized)
-
-        self.webview.show()
-
-    def run(self):
-        from PyQt4.QtCore import QUrl
-        self.webview.load(QUrl(self.dj_rsa.full_url_address))
-        self.app.exec_()
-
-    def set_icon(self, icon):
-        from PyQt4.QtGui import QIcon
-        self.webview.setWindowIcon(QIcon(icon))
 
 class DjangoRunStandAlone:
     def __init__(self, **args):
@@ -105,10 +40,13 @@ class DjangoRunStandAlone:
 
     def run(self, ui_mode='gtk3'):
         if ui_mode == 'gtk3':
+            from guigtk import GuiGtk
             ui = GuiGtk(3, self)
         elif ui_mode == 'gtk2':
+            from guigtk import GuiGtk
             ui = GuiGtk(2, self)
         elif ui_mode == 'qt4':
+            from guiqt import GuiQt
             ui = GuiQt(self)
         else:
             raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
