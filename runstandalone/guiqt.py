@@ -11,10 +11,10 @@ class GuiQt:
         self.webview = QWebView()
         self.webview.setWindowState(QtCore.Qt.WindowMaximized)
 
-        QtCore.QObject.connect(self.webview,QtCore.SIGNAL("titleChanged (const QString&)"), self._title_changed)
+        QtCore.QObject.connect(self.webview,QtCore.SIGNAL("titleChanged (const QString&)"), self.set_title)
         self.webview.show()
 
-    def _title_changed(self, title):
+    def set_title(self, title):
         self.webview.setWindowTitle(title)
 
     def run(self):

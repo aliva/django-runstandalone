@@ -27,12 +27,15 @@ class GuiGtk:
         self.window.connect('destroy', self._quit)
 
         self.webview.load_uri(self.dj_rsa.full_url_address)
-        self.webview.connect('notify::title', self._title_changed)
+        self.webview.connect('notify::title', self.set_title)
 
         self.window.show_all()
 
-    def _title_changed(self, webview, gtitle):
-        title = self.webview.get_title()
+    def set_title(self, webview, gtitle):
+        if type(webview) == str:
+            title = webview
+        else:
+            title = self.webview.get_title()
         if title != None:
             self.window.set_title(title)
 
