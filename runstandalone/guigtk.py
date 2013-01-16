@@ -1,6 +1,6 @@
 class GuiGtk:
-    def __init__(self, version, dj_rsa):
-        self.dj_rsa = dj_rsa
+    def __init__(self, version, conf):
+        self.conf = conf
 
         if version == 3:
             from gi.repository import Gtk
@@ -26,7 +26,7 @@ class GuiGtk:
 
         self.window.connect('destroy', self._quit)
 
-        self.webview.load_uri(self.dj_rsa.full_url_address)
+        self.webview.load_uri(self.conf['url'])
         self.webview.connect('notify::title', self.set_title)
 
         self.window.show_all()

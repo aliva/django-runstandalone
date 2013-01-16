@@ -1,6 +1,6 @@
 class GuiQt:
-    def __init__(self, dj_rsa):
-        self.dj_rsa = dj_rsa
+    def __init__(self, conf):
+        self.conf = conf
 
         from PyQt4 import QtCore
         from PyQt4.QtGui import QApplication
@@ -19,7 +19,7 @@ class GuiQt:
 
     def run(self):
         from PyQt4.QtCore import QUrl
-        self.webview.load(QUrl(self.dj_rsa.full_url_address))
+        self.webview.load(QUrl(self.conf['url']))
         self.app.exec_()
 
     def set_icon(self, icon):
