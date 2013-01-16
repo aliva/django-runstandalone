@@ -1,42 +1,28 @@
 #!/usr/bin/env python
 
-import importlib
 import os
-import socket
-import threading
-try:
-    from urllib.request import urlopen
-except ImportError: # python2
-    from urllib import urlopen
-from wsgiref.simple_server import make_server
+
+from .server import Server
 
 
 class DjangoRunStandAlone:
     def __init__(self, **args):
         self.wsgi = args['wsgi']
         self.ip = args.get('ip', '0.0.0.0')
-        self.port = args.get('port', self.get_random_port())
+        self.port = args.get('port', Server.get_random_port(self.ip))
         self.icon = args.get('icon', '')
 
         self.full_url_address = 'http://%s:%d' % (self.ip, self.port)
 
-        self.server_thread = threading.Thread(target=self.run_server)
-        self.server_thread.daemon = True
+        conf = {
+            'wsgi': self.wsgi,
+            'ip': self.ip,
+            'port': self.port,
+            'icon': self.icon,
+            'url': self.full_url_address,
+        }
 
-    def get_random_port(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((self.ip, 0))
-        s.listen(0)
-        port = s.getsockname()[1]
-        s.close()
-        return port
-
-    def ping(self):
-        try:
-            urlopen(self.full_url_address)
-        except:
-            return False
-        return True
+        self.server = Server(conf)
 
     def run(self, ui_mode='gtk3'):
         if ui_mode == 'gtk3':
@@ -51,20 +37,14 @@ class DjangoRunStandAlone:
         else:
             raise Excpetion('Unknown ui mode selected: %s' % ui_mode)
 
-        self.server_thread.start()
+        self.server.run()
 
-        while not self.ping():
+        while not self.server.ping():
             pass
 
         if os.path.exists(self.icon):
             ui.set_icon(self.icon)
         ui.run()
-
-    def run_server(self):
-        wsgi = importlib.import_module(self.wsgi)
-        httpd = make_server(self.ip, self.port, wsgi.application)
-        print ("Listening on port %d...." % self.port)
-        httpd.serve_forever()
 
     def __del__(self):
         pass
