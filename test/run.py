@@ -13,8 +13,8 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.abspath(os.path.join(working_dir + '/../')))
 
     # import DjangoRunStandAlone
-    import runstandalone
-    dj_runner = runstandalone.DjangoRunStandAlone(
+    import djangorunstandalone
+    dj_runner = djangorunstandalone.DjangoRunStandAlone(
         # this is the wsgi.py in project. it should be importable
         wsgi='testproject.wsgi',
         # django server ip - optional - default: 0.0.0.0
